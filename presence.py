@@ -29,6 +29,17 @@ def get_time():
 def get_clock():
     return datetime.now().strftime("%I:%M %p")
 
+def get_active_window():
+    try:
+        window = gw.getActiveWindow()
+
+        if window:
+            return window.title
+
+    except Exception:
+        pass
+
+    return "Unknown Window"
 
 # =========================
 # ACTIVITY DETECTION
@@ -63,13 +74,14 @@ def get_activity():
 # =========================
 # RENDER UI
 # =========================
-def render(status, detail, timer, clock):
+def render(status, detail, timer, clock, window):
     print(" ♡ 𝓃ℴ𝒷ℴ𝒹𝓎 𝓃ℴ𝒷ℴ𝒹𝓎 𝓃ℴ𝒷ℴ𝒹𝓎 ♡")
     print("   · · ─ ·✶· ─ · ·")
     print(f" 𝕞𝕖𝕟𝕥𝕒𝕝 : {status:<18}")
     print(f" 𝕤𝕒𝕟𝕚𝕥𝕪 : {detail:<18}")
     print(f" 𝕥𝕚𝕞𝕖   : {timer:<18}")
     print(f" 𝕔𝕝𝕠𝕔𝕜  : {clock:<18}")
+    print(f" 𝕨𝕚𝕟𝕕𝕠𝕨 : {window}")
     print("   · · ─ ·✶· ─ · ·")
 
 
@@ -83,11 +95,11 @@ def main():
         status, detail = get_activity()
         timer = get_time()
         clock = get_clock()
+        window = get_active_window()
 
         if (status, detail) != last:
             clear()
-            render(status, detail, timer, clock)
-            last = (status, detail)
+            render(status, detail, timer, clock, window)
 
         time.sleep(2)
 
